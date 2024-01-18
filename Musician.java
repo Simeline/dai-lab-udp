@@ -40,17 +40,20 @@ public class Musician {
             System.out.println("Multicast Sender (Musiciant) started. Waiting for messages...");
 
             while (true) {
-//                String sound = instrumentSounds.getOrDefault(instrument, "unknown");
-//                String musicianId = UUID.randomUUID().toString();
-//                String message = String.format("{\"uuid\":\"%s\",\"sound\":\"%s\"}", musicianId, sound);
-                String message = "Hello";
+                String musicianId = UUID.randomUUID().toString();
+                String instrument = "piano";
+                long timestamp = System.currentTimeMillis();
 
-                byte[] payload = message.getBytes(StandardCharsets.UTF_8);
-                var dest_address = new InetSocketAddress(MULTICAST_ADDRESS, 44444);
-                DatagramPacket packet = new DatagramPacket(payload, payload.length, dest_address);
+                // Créez une instance de la classe Message
+                Message message = new Message(musicianId, instrument, timestamp);
+                String jsonMessage = new Gson().toJson(message);
+
+                byte[] payload = jsonMessage.getBytes(StandardCharsets.UTF_8);
+                InetAddress group = InetAddress.getByName(MULTICAST_ADDRESS);
+                DatagramPacket packet = new DatagramPacket(payload, payload.length, group, PORT);
                 socket.send(packet);
 
-                 Thread.sleep(SLEEP_DURATION);
+                Thread.sleep(SLEEP_DURATION);
             }
         }
 

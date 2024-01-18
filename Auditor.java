@@ -25,6 +25,7 @@ public class Auditor {
         System.out.println("UUID: " + message.getUuid());
         System.out.println("Instrument: " + message.getInstrument());
         System.out.println("Sound: " + message.getSound());
+        System.out.println("Last Activity: " + message.getLastActivity());
         // Add more processing as needed
     }
 
