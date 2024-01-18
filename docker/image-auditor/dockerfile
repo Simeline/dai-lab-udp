@@ -1,0 +1,14 @@
+# Utilisation d'une image de base avec une JVM
+FROM openjdk:11
+
+# Création du répertoire de l'application
+WORKDIR /app
+
+# Copie du fichier JAR Auditeur dans le conteneur
+COPY target/dai-lab-udp.jar /app/app.jar
+
+# Exposition du port utilisé par l'application
+EXPOSE 2205/tcp
+
+# Commande d'exécution de l'application Auditeur
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
