@@ -13,27 +13,8 @@ public class Musician {
     private static final int PORT = 9904;
     private static final int SLEEP_DURATION = 1000; // millisecondes
 
-//    private static final Map<String, String> instrumentSounds = new HashMap<>();
-//
-//    static {
-//        instrumentSounds.put("piano", "ti-ta-ti");
-//        instrumentSounds.put("trumpet", "pouet");
-//        instrumentSounds.put("flute", "trulu");
-//        instrumentSounds.put("violin", "gzi-gzi");
-//        instrumentSounds.put("drum", "boum-boum");
-//    }
-
-
 
     public static void main(String[] args) {
-
-//        // on doit passer au moins un argument ?
-//        if (args.length != 1) {
-//            System.err.println("Usage: java Musician <instrument>");
-//            System.exit(1);
-//        }
-//
-//        String instrument = args[0];
 
         try (DatagramSocket socket = new DatagramSocket()) {
 
@@ -44,7 +25,6 @@ public class Musician {
                 String instrument = "piano";
                 long timestamp = System.currentTimeMillis();
 
-                // Créez une instance de la classe Message
                 Message message = new Message(musicianId, instrument, timestamp);
                 String jsonMessage = new Gson().toJson(message);
 
