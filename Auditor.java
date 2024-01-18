@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.*;
@@ -11,6 +13,20 @@ public class Auditor {
     private static final int TCP_PORT = 2205;
 
     private static final Map<String, Long> activeMusicians = new HashMap<>();
+
+    private static void processJsonMessage(String jsonMessage) {
+        Gson gson = new Gson();
+
+        // Assuming a class named Message for the structure of your JSON
+        Message message = gson.fromJson(jsonMessage, Message.class);
+
+        // Now you can work with the parsed Java object
+        System.out.println("Received JSON message:");
+        System.out.println("UUID: " + message.getUuid());
+        System.out.println("Instrument: " + message.getInstrument());
+        System.out.println("Sound: " + message.getSound());
+        // Add more processing as needed
+    }
 
 
     public static void main(String[] args) {
@@ -30,6 +46,7 @@ public class Auditor {
                 socket.receive(packet);
 
                 String message = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
+                // processJsonMessage(jsonMessage);
                 System.out.println("Received message: " + message + " from " + packet.getAddress() + ", port" + packet.getPort());
                 socket.leaveGroup(group, netif);
             }

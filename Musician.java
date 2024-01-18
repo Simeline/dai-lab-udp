@@ -23,19 +23,7 @@ public class Musician {
 //        instrumentSounds.put("drum", "boum-boum");
 //    }
 
-    private static void processJsonMessage(String jsonMessage) {
-        Gson gson = new Gson();
 
-        // Assuming a class named Message for the structure of your JSON
-        Message message = gson.fromJson(jsonMessage, Message.class);
-
-        // Now you can work with the parsed Java object
-        System.out.println("Received JSON message:");
-        System.out.println("UUID: " + message.getUuid());
-        System.out.println("Instrument: " + message.getInstrument());
-        System.out.println("Sound: " + message.getSound());
-        // Add more processing as needed
-    }
 
     public static void main(String[] args) {
 
