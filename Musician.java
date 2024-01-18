@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Musician {
     private static final String MULTICAST_ADDRESS = "239.255.22.5";
     private static final int PORT = 9904;
-    // private static final int SLEEP_DURATION = 1000; // millisecondes
+    private static final int SLEEP_DURATION = 1000; // millisecondes
 
 //    private static final Map<String, String> instrumentSounds = new HashMap<>();
 //
@@ -36,7 +36,7 @@ public class Musician {
 
             System.out.println("Multicast Sender (Musiciant) started. Waiting for messages...");
 
-//            while (true) {
+            while (true) {
 //                String sound = instrumentSounds.getOrDefault(instrument, "unknown");
 //                String musicianId = UUID.randomUUID().toString();
 //                String message = String.format("{\"uuid\":\"%s\",\"sound\":\"%s\"}", musicianId, sound);
@@ -47,8 +47,8 @@ public class Musician {
                 DatagramPacket packet = new DatagramPacket(payload, payload.length, dest_address);
                 socket.send(packet);
 
-                // Thread.sleep(SLEEP_DURATION);
-//            }
+                 Thread.sleep(SLEEP_DURATION);
+            }
         }
 
         catch (Exception e) {

@@ -10,16 +10,8 @@ public class Auditor {
     private static final int PORT = 9904;
     private static final int TCP_PORT = 2205;
 
-//    private static final Map<String, String> instrumentSounds = new HashMap<>();
-//    private static final Map<String, Long> activeMusicians = new HashMap<>();
-//
-//    static {
-//        instrumentSounds.put("piano", "ti-ta-ti");
-//        instrumentSounds.put("trumpet", "pouet");
-//        instrumentSounds.put("flute", "trulu");
-//        instrumentSounds.put("violin", "gzi-gzi");
-//        instrumentSounds.put("drum", "boum-boum");
-//    }
+    private static final Map<String, Long> activeMusicians = new HashMap<>();
+
 
     public static void main(String[] args) {
 
