@@ -34,7 +34,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>main.java.ch.heig.dai.Auditor</mainClass>
+                            <mainClass>ch.heig.dai.Auditor</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

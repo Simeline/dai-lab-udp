@@ -1,4 +1,4 @@
-package main.java.ch.heig.dai;
+package ch.heig.dai;
 
 public class Message {
     private final String uuid;
