@@ -1,6 +1,7 @@
 package ch.heig.dai;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,13 +23,18 @@ public class Auditor {
     private static Message processJsonMessage(String jsonMessage) {
 
         Gson gson = new Gson();
-        Message message = gson.fromJson(jsonMessage, Message.class);
 
-        System.out.println("Received JSON message:");
-        System.out.println("UUID: " + message.getUuid());
-        System.out.println("Instrument: " + message.getInstrument());
-        System.out.println("Sound: " + message.getSound());
-        System.out.println("Last Activity: " + message.getLastActivity());
+        JsonObject jsonObject = gson.fromJson(jsonMessage, JsonObject.class);
+
+        String uuid = jsonObject.get("uuid").getAsString();
+        String sound = jsonObject.get("sound").getAsString();
+
+        Message message = new Message(uuid, sound);
+
+        System.out.println(message.getInstrument());
+        System.out.println(message.getUuid());
+        System.out.println(message.getLastActivity());
+
 
         for (Message m : activeMusicians) {
             if (Objects.equals(message.getUuid(), m.getUuid())) {
@@ -75,7 +81,7 @@ public class Auditor {
         try (MulticastSocket socket = new MulticastSocket(UDP_PORT)) {
 
             var group = new InetSocketAddress(MULTICAST_ADDRESS, UDP_PORT);
-            NetworkInterface netif = NetworkInterface.getByName("eth0");
+            NetworkInterface netif = NetworkInterface.getByName("en0"); // attention si c'est mac ou windows eth0
             socket.joinGroup(group, netif);
 
             System.out.println("Multicast Receiver started. Waiting for messages...");
@@ -89,6 +95,7 @@ public class Auditor {
                     socket.receive(packet);
 
                     String message = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
+                    System.out.println(message);
                     activeMusicians.add(processJsonMessage(message));
                     System.out.println("Received message: " + message + " from " + packet.getAddress() + ", port" + packet.getPort());
                     }
