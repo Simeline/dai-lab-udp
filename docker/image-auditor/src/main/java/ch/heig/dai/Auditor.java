@@ -1,3 +1,5 @@
+package main.java.ch.heig.dai;
+
 import com.google.gson.Gson;
 
 import java.io.BufferedWriter;

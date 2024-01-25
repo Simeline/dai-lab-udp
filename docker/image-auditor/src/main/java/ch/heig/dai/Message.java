@@ -1,3 +1,5 @@
+package main.java.ch.heig.dai;
+
 public class Message {
     private final String uuid;
     private final String instrument;
