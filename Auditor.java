@@ -7,6 +7,8 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Auditor {
     private static final String MULTICAST_ADDRESS = "239.255.22.5";
@@ -99,8 +101,10 @@ public class Auditor {
     }
 
     public static void main(String[] args) {
-        tcp_process();
-        udp_process();
+        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            executor.submit(Auditor::tcp_process);
+            executor.submit(Auditor::udp_process);
+        }
     }
 }
 
