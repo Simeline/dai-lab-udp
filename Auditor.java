@@ -6,8 +6,6 @@ import java.io.OutputStreamWriter;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class Auditor {
@@ -20,10 +18,8 @@ public class Auditor {
     private static Message processJsonMessage(String jsonMessage) {
 
         Gson gson = new Gson();
-        // Assuming a class named Message for the structure of your JSON
         Message message = gson.fromJson(jsonMessage, Message.class);
 
-        // Now you can work with the parsed Java object
         System.out.println("Received JSON message:");
         System.out.println("UUID: " + message.getUuid());
         System.out.println("Instrument: " + message.getInstrument());
@@ -38,7 +34,7 @@ public class Auditor {
         return message;
     }
 
-    private static void tcp() {
+    private static void tcp_process() {
 
         try (ServerSocket serverSocket = new ServerSocket(TCP_PORT)) {
 
@@ -69,11 +65,11 @@ public class Auditor {
         }
     }
 
-
-    public static void main(String[] args) {
+    private static void udp_process() {
 
         // Start TCP Server
         try (MulticastSocket socket = new MulticastSocket(UDP_PORT)) {
+
             var group = new InetSocketAddress(MULTICAST_ADDRESS, UDP_PORT);
             NetworkInterface netif = NetworkInterface.getByName("eth0");
             socket.joinGroup(group, netif);
@@ -96,9 +92,15 @@ public class Auditor {
             finally {
                 socket.leaveGroup(group, netif);
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        tcp_process();
+        udp_process();
     }
 }
 
