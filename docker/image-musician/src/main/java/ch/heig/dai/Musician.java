@@ -26,8 +26,8 @@ public class Musician {
 
     // Attributes for the instrument
     private static class Instrument{
-        private static final String uuid = UUID.randomUUID().toString();
-        private static String sound;
+        private final String uuid = UUID.randomUUID().toString();
+        private final String sound;
 
         public Instrument(String instrument){
             sound = sounds.get(instrument);
@@ -49,7 +49,7 @@ public static void main(String[] args) {
     System.out.println("Starting Musician...");
 
     // Check if the args are valid
-    if (args == null || args.length > 1) {
+    if (args == null || args.length != 1) {
         System.out.println("Exit. Error with instrument argument");
         System.out.println("Usage: docker run -d dai/musician <instrument>");
         return;
@@ -67,14 +67,19 @@ public static void main(String[] args) {
     try (DatagramSocket socket = new DatagramSocket()) {
         System.out.println("Multicast Sender (Musician) started. Waiting for messages...");
 
-        while (true) {
-            String jsonMessage = new Gson().toJson(instrument);
+        // Create the payload
+        String jsonMessage = new Gson().toJson(instrument);
+        byte[] payload = jsonMessage.getBytes(StandardCharsets.UTF_8);
+        System.out.println("Payload was build. Message is the following : \n" + jsonMessage);
 
-            byte[] payload = jsonMessage.getBytes(StandardCharsets.UTF_8);
+        while (true) {
+            // Send the packet
             InetAddress group = InetAddress.getByName(MULTICAST_ADDRESS);
             DatagramPacket packet = new DatagramPacket(payload, payload.length, group, PORT);
             socket.send(packet);
+            System.out.println("Payload has been sent.");
 
+            // Sleeping
             Thread.sleep(SLEEP_DURATION);
         }
     } catch (Exception e) {
