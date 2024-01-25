@@ -1,6 +1,8 @@
 import com.google.gson.Gson;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -33,8 +35,38 @@ public class Auditor {
                 activeMusicians.remove(m);
             }
         }
-
         return message;
+    }
+
+    private static void tcp() {
+
+        try (ServerSocket serverSocket = new ServerSocket(TCP_PORT)) {
+
+            while (true) {
+
+                try (Socket socket = serverSocket.accept();
+
+                     var out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8))) {
+
+                    for (Message m : activeMusicians) {
+                        if (m.getLastActivity() < System.currentTimeMillis() - 5000) {
+                            activeMusicians.remove(m);
+                        }
+                    }
+
+                    Gson gson = new Gson();
+                    String json = gson.toJson(activeMusicians);
+                    out.write(json);
+
+                }
+                catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
