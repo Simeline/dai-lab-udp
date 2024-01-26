@@ -1,7 +1,5 @@
 package ch.heig.dai;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Message {
     private final String uuid;
@@ -9,15 +7,11 @@ public class Message {
     private final long lastActivity;
 
 
-
-    @JsonCreator
     public Message(String uuid,String sound) {
         this.uuid = uuid;
         this.lastActivity = System.currentTimeMillis();
         this.instrument = getInstrumentFromSound(sound);
     }
-
-
 
 
     public String getUuid() {

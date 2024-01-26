@@ -31,16 +31,8 @@ public class Auditor {
 
         Message message = new Message(uuid, sound);
 
-        System.out.println(message.getInstrument());
-        System.out.println(message.getUuid());
-        System.out.println(message.getLastActivity());
+        activeMusicians.removeIf(m -> Objects.equals(message.getUuid(), m.getUuid()));
 
-
-        for (Message m : activeMusicians) {
-            if (Objects.equals(message.getUuid(), m.getUuid())) {
-                activeMusicians.remove(m);
-            }
-        }
         return message;
     }
 
@@ -54,11 +46,7 @@ public class Auditor {
 
                      var out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8))) {
 
-                    for (Message m : activeMusicians) {
-                        if (m.getLastActivity() < System.currentTimeMillis() - 5000) {
-                            activeMusicians.remove(m);
-                        }
-                    }
+                    activeMusicians.removeIf(m -> m.getLastActivity() < System.currentTimeMillis() - 5000);
 
                     Gson gson = new Gson();
                     String json = gson.toJson(activeMusicians);
