@@ -1,15 +1,13 @@
 package ch.heig.dai;
 
+import com.google.gson.Gson;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import com.google.gson.Gson;
 
 public class Musician {
     private static final String MULTICAST_ADDRESS = "239.255.22.5";
