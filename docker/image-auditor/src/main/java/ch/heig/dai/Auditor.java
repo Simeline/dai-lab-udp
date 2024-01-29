@@ -102,9 +102,8 @@ public class Auditor {
                     socket.receive(packet);
 
                     String message = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
-                    System.out.println(message);
                     processJsonMessage(message);
-                    System.out.println("RECEIVED FROM <" + packet.getAddress() + "> ON  PORT <" + packet.getPort() + ">\n MESSAGE : " + message);
+                    System.out.println("RECEIVED FROM <" + packet.getAddress() + "> ON  PORT <" + packet.getPort() + "> MESSAGE : " + message);
                 }
             } catch (IOException e) {
                 System.out.println(e.getMessage());
