@@ -91,7 +91,7 @@ public class Auditor {
         // Start TCP Server
         try (MulticastSocket socket = new MulticastSocket(UDP_PORT)) {
             var group = new InetSocketAddress(MULTICAST_ADDRESS, UDP_PORT);
-            NetworkInterface netif = NetworkInterface.getByName("eth0"); // /!\ May vary for different configuration. i.e eth0 or ens0
+            NetworkInterface netif = NetworkInterface.getByName("eth0"); // /!\ May vary for different configuration. i.e eth0 or en0
             socket.joinGroup(group, netif);
 
             System.out.println("Multicast Receiver started. Waiting for messages...");
